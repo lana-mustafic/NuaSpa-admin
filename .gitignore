@@ -29,3 +29,4 @@ android/local.properties
 .vscode/
 .idea/
 *.iml
+.vs/
