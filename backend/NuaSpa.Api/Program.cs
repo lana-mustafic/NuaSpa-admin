@@ -5,12 +5,16 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using NuaSpa.Api.Settings;
 using NuaSpa.Core.Entities;
+using FluentValidation.AspNetCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add controllers
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddFluentValidationAutoValidation();
+
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
