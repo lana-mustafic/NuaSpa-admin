@@ -62,7 +62,7 @@ namespace NuaSpa.Infrastructure.Migrations
 
                     b.HasIndex("StaffId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("NuaSpa.Core.Entities.Client", b =>
@@ -89,7 +89,7 @@ namespace NuaSpa.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("NuaSpa.Core.Entities.Review", b =>
@@ -113,7 +113,7 @@ namespace NuaSpa.Infrastructure.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("NuaSpa.Core.Entities.Room", b =>
@@ -130,7 +130,7 @@ namespace NuaSpa.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("NuaSpa.Core.Entities.Service", b =>
@@ -162,7 +162,7 @@ namespace NuaSpa.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Services");
+                    b.ToTable("Services", (string)null);
                 });
 
             modelBuilder.Entity("NuaSpa.Core.Entities.ServiceCategory", b =>
@@ -179,7 +179,7 @@ namespace NuaSpa.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ServiceCategories");
+                    b.ToTable("ServiceCategories", (string)null);
                 });
 
             modelBuilder.Entity("NuaSpa.Core.Entities.Staff", b =>
@@ -205,7 +205,7 @@ namespace NuaSpa.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Staff");
+                    b.ToTable("Staff", (string)null);
                 });
 
             modelBuilder.Entity("NuaSpa.Core.Entities.User", b =>
@@ -238,7 +238,7 @@ namespace NuaSpa.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("NuaSpa.Core.Entities.WorkingHours", b =>
@@ -265,7 +265,7 @@ namespace NuaSpa.Infrastructure.Migrations
 
                     b.HasIndex("StaffId");
 
-                    b.ToTable("WorkingHours");
+                    b.ToTable("WorkingHours", (string)null);
                 });
 
             modelBuilder.Entity("NuaSpa.Core.Entities.Appointment", b =>

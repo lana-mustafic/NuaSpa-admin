@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NuaSpa.Core.Entities;
 
+
 namespace NuaSpa.Infrastructure.Data;
 
 public class NuaSpaDbContext : DbContext
@@ -20,6 +21,7 @@ public class NuaSpaDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
 
         // Precision for money
         modelBuilder.Entity<Service>()
