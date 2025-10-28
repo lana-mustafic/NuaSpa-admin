@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Your_strong_password_123
+    ports: ["1433:1433"]
+  rabbit:
+    image: rabbitmq:3-management
+    ports: ["5672:5672","15672:15672"]
+  api:
+    build: ./backend/NuaSpa.Api
+    environment:
+      - ConnectionStrings__Default=Server=db;Database=NuaDB;User=sa;Password=Your_strong_password_123;TrustServerCertificate=True
+      - Rabbit__Host=rabbit
+      - Jwt__Key=SuperSecretJwtKeyChangeMe
+    depends_on: [db, rabbit]
+    ports: ["8080:8080"]
+  worker:
+    build: ./worker/NuaSpa.Notifications.Worker
+    depends_on: [rabbit, api]
