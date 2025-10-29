@@ -53,15 +53,51 @@ public class AppointmentsController : ControllerBase
         var service = await _db.Services.FindAsync(dto.ServiceId);
         if (service is null) return BadRequest("Service not found.");
 
-        var end = dto.Start.AddMinutes(service.DurationMinutes);
+        var start = dto.Start;
+        var end = start.AddMinutes(service.DurationMinutes);
 
+        // 1) Check if appointment fits inside staff working hours
+        var day = (int)start.DayOfWeek;
+        if (day == 0) day = 7; // Sunday fix (C# uses 0 for Sunday)
+
+        var workingHours = await _db.WorkingHours
+            .Where(w => w.StaffId == dto.StaffId && w.DayOfWeek == day)
+            .FirstOrDefaultAsync();
+
+        if (workingHours is null)
+            return BadRequest("Staff does not work this day.");
+
+        if (start.TimeOfDay < workingHours.Start || end.TimeOfDay > workingHours.End)
+            return BadRequest("Appointment is outside of staff working hours.");
+
+        // 2) Check staff overlap
+        var staffOverlap = await _db.Appointments.AnyAsync(a =>
+            a.StaffId == dto.StaffId &&
+            a.Start < end &&
+            start < a.End
+        );
+
+        if (staffOverlap)
+            return BadRequest("Staff is already booked for this time.");
+
+        // 3) Check room overlap
+        var roomOverlap = await _db.Appointments.AnyAsync(a =>
+            a.RoomId == dto.RoomId &&
+            a.Start < end &&
+            start < a.End
+        );
+
+        if (roomOverlap)
+            return BadRequest("Room is already in use during this time.");
+
+        // Everything valid → create appointment
         var appt = new Appointment
         {
             ClientId = dto.ClientId,
             StaffId = dto.StaffId,
             ServiceId = dto.ServiceId,
             RoomId = dto.RoomId,
-            Start = dto.Start,
+            Start = start,
             End = end,
             Status = "Scheduled"
         };
@@ -70,6 +106,7 @@ public class AppointmentsController : ControllerBase
         await _db.SaveChangesAsync();
         return Ok();
     }
+
 
     [HttpPut("{id:int}/status")]
     [Authorize(Roles = "Admin,Staff")]
