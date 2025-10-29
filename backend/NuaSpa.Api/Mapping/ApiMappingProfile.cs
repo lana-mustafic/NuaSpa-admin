@@ -15,5 +15,11 @@ public class ApiMappingProfile : Profile
         CreateMap<Service, ServiceDto>();
         CreateMap<CreateServiceDto, Service>();
         CreateMap<UpdateServiceDto, Service>();
+
+        CreateMap<Staff, StaffDto>()
+    .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
+    .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.User.PhoneNumber))
+    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email));
+
     }
 }
